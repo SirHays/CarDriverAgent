@@ -1,18 +1,12 @@
-using System.ComponentModel;
+using Unity.MLAgents;
+using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
+using UnityEngine;
+using UnityStandardAssets.Vehicles.Car;
 //using System.ComponentModel.DataAnnotations.Schema;
 //using System.IO.Enumeration;
-using System.Security.Cryptography;
-using System;
-using System.Xml.Xsl;
-using System.Transactions;
 //using System.Threading.Tasks.Dataflow;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Unity.MLAgents;
-using Unity.MLAgents.Sensors;
-using Unity.MLAgents.Actuators;
-using UnityStandardAssets.Vehicles.Car;
+
 public class CarDriverAgent : Agent
 {
     
@@ -22,8 +16,8 @@ public class CarDriverAgent : Agent
     
     private void Awake(){
         carController = GetComponent<CarController>();
-        GameObject SceneObjects = GameObject.Find("SceneObjects");
-        trackCheckpoints = SceneObjects.GetComponent<TrackCheckpoints>();
+        GameObject sceneObjects = GameObject.Find("SceneObjects");
+        trackCheckpoints = sceneObjects.GetComponent<TrackCheckpoints>();
     }
 
     private void Start(){
@@ -46,7 +40,7 @@ public class CarDriverAgent : Agent
 
     public override void OnEpisodeBegin() {
         
-        transform.position = spawnPosition.position + new Vector3(UnityEngine.Random.Range(-5f,+5f),0,0);
+        transform.position = spawnPosition.position + new Vector3(Random.Range(-5f,+5f),0,0);
         transform.forward = spawnPosition.forward;
         trackCheckpoints.ResetCheckpoint(transform);
         //car jolts around when respawining because of retention of speed from collision. solution below is supposed to work but does not. fix.
@@ -61,19 +55,22 @@ public class CarDriverAgent : Agent
         
     }
 
-    public override void OnActionReceived(ActionBuffers actions) {
-        float forwardAmount = 0f;
-        float turnAmount = 0f;
-        switch (actions.DiscreteActions[0]){
-            case 0: forwardAmount =0f; break;
-            case 1: forwardAmount =+1f; break;
-            case 2: forwardAmount =-1f; break;
-        }
-        switch (actions.DiscreteActions[1]){
-            case 0: turnAmount = 0f; break;
-            case 1: turnAmount = +1f; break;
-            case 2: turnAmount = -1f; break;
-        }
+    public override void OnActionReceived(ActionBuffers actions)
+    {
+        float forwardAmount = actions.ContinuousActions[0];
+        float turnAmount = actions.ContinuousActions[1];
+        
+        // switch (actions.continuousActions[0]){
+        //     case 0: forwardAmount =0f; break;
+        //     case 1: forwardAmount =+1f; break;
+        //     case 2: forwardAmount =-1f; break;
+        // }
+        // switch (actions.continuousActions[1]){
+        //     case 0: turnAmount = 0f; break;
+        //     case 1: turnAmount = +1f; break;
+        //     case 2: turnAmount = -1f; break;
+        // }
+        
         carController.Move(turnAmount,forwardAmount,0f,0f);
     }
 
@@ -85,13 +82,13 @@ public class CarDriverAgent : Agent
         if(Input.GetKey(KeyCode.D)) turnAction =1;
         if(Input.GetKey(KeyCode.A)) turnAction =2;
 
-        ActionSegment<int> discreteActions = actionsOut.DiscreteActions;
-        discreteActions[0] = forwardAction;
-        discreteActions[1] = turnAction;
+        ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
+        continuousActions[0] = forwardAction;
+        continuousActions[1] = turnAction;
     }
 
     private void OnCollisionEnter(Collision collision){
-        if(collision.gameObject.TryGetComponent<Wall>(out Wall wall)) {
+        if(collision.gameObject.TryGetComponent(out Wall _)) {
             AddReward(-0.5f);
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
@@ -99,7 +96,7 @@ public class CarDriverAgent : Agent
         }
     }
     private void OnCollisionStay(Collision collision){
-        if(collision.gameObject.TryGetComponent<Wall>(out Wall wall)) {
+        if(collision.gameObject.TryGetComponent(out Wall _)) {
             AddReward(-0.1f);
             
         }

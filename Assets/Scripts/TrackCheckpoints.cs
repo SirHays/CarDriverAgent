@@ -20,8 +20,8 @@ public class TrackCheckpoints : MonoBehaviour {
     private List<int> nextCheckpointSingleIndexList;
     
     private void Awake() {
-        GameObject SceneObjects = GameObject.Find("SceneObjects");
-        Transform checkpointsTransform = SceneObjects.transform.Find("Checkpoints");
+        GameObject sceneObjects = GameObject.Find("SceneObjects");
+        Transform checkpointsTransform = sceneObjects.transform.Find("Checkpoints");
         checkpointSingleList = new List<CheckpointSingle>();
         foreach (Transform checkpointSingleTransform in checkpointsTransform) {
             CheckpointSingle checkpointSingle = checkpointSingleTransform.GetComponent<CheckpointSingle>();

@@ -14,7 +14,7 @@ public class CheckpointSingle : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         Transform car =other.transform.parent.parent;
-        if (car.TryGetComponent<Player>(out Player player)) {
+        if (car.TryGetComponent(out Player _)) {
             trackCheckpoints.CarThroughCheckpoint(this, car);
         }
     }
