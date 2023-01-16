@@ -1,0 +1,24 @@
+{
+    "DriveAroundTrack": {
+        "checkpoints": [
+            {
+                "steps": 347108,
+                "file_path": "results\\Train3\\DriveAroundTrack\\DriveAroundTrack-347108.onnx",
+                "reward": 45.5,
+                "creation_time": 1617562678.704054
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 347108,
+            "file_path": "results\\Train3\\DriveAroundTrack.onnx",
+            "reward": 45.5,
+            "creation_time": 1617562678.704054
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.2.0",
+        "mlagents_version": "0.23.0",
+        "torch_version": "1.7.1+cu110",
+        "tensorflow_version": -1
+    }
+}

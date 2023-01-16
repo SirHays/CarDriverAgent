@@ -1,0 +1,30 @@
+{
+    "DriveAroundTrack": {
+        "checkpoints": [
+            {
+                "steps": 499995,
+                "file_path": "results\\Train6\\DriveAroundTrack\\DriveAroundTrack-499995.onnx",
+                "reward": 32.333333333333336,
+                "creation_time": 1617643321.6525047
+            },
+            {
+                "steps": 500063,
+                "file_path": "results\\Train6\\DriveAroundTrack\\DriveAroundTrack-500063.onnx",
+                "reward": 32.26923076923077,
+                "creation_time": 1617643321.7810712
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 500063,
+            "file_path": "results\\Train6\\DriveAroundTrack.onnx",
+            "reward": 32.26923076923077,
+            "creation_time": 1617643321.7810712
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.2.0",
+        "mlagents_version": "0.23.0",
+        "torch_version": "1.7.1+cu110",
+        "tensorflow_version": -1
+    }
+}
